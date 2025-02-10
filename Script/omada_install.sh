@@ -53,12 +53,14 @@ apt-get -qq install openjdk-8-jre-headless &> /dev/null
 echo "[+] Installing JSVC"
 apt-get -qq install jsvc &> /dev/null
 
+# Omada controller
 echo "[+] Downloading the latest Omada Software Controller package"
 OmadaPackageUrl=$(curl -fsSL https://support.omadanetworks.com/us/product/omada-software-controller/?resourceType=download | grep -oPi '<a[^>]*href="\K[^"]*Linux_x64.deb[^"]*' | head -n 1)
 wget -qP /tmp/ $OmadaPackageUrl
 echo "[+] Installing Omada Software Controller $(echo $(basename $OmadaPackageUrl) | tr "_" "\n" | sed -n '4p')"
 dpkg -i /tmp/$(basename $OmadaPackageUrl) &> /dev/null
 
+# Cleanup
 hostIP=$(hostname -I | cut -f1 -d' ')
 echo -e "\e[0;32m[~] Omada Software Controller has been successfully installed! :)\e[0m"
 echo -e "\e[0;32m[~] Please visit https://${hostIP}:8043 to complete the inital setup wizard.\e[0m\n"
